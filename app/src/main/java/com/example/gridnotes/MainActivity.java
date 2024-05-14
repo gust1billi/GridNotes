@@ -49,7 +49,7 @@ public class MainActivity extends AppCompatActivity {
                         if ( data.getBooleanExtra("delete", false) ){
                             if ( !data.getBooleanExtra("newNote", false)){
                                 int position = data.getIntExtra("position", 0);
-                                deleteNote(position); myAdapter.notifyItemRemoved( position );
+                                deleteNote(position); myAdapter.notifyItemRemoved( position + 1 );
                             }
                         }
 
@@ -88,7 +88,7 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
                 // deleteNote();
                 addNote("a", "b");
-                Toast.makeText(MainActivity.this, "Note size: "+ notes.size(), Toast.LENGTH_SHORT).show();
+                // Toast.makeText(MainActivity.this, "Note size: "+ notes.size(), Toast.LENGTH_SHORT).show();
                 myAdapter.saveNote();
 //                myAdapter.notifyItemChanged( notes.size() );
             }
