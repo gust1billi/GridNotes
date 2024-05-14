@@ -23,11 +23,10 @@ public class EditNoteActivity extends AppCompatActivity {
 
     Bundle extras;
 
-    EditText editDesc;
-    TextInputLayout layoutTitle; TextInputEditText editTitle;
-    ImageView backBtn, deleteBtn;
     TextView toolbarTitle;
-    FloatingActionButton updateBtn;
+    EditText editDesc; TextInputLayout layoutTitle; TextInputEditText editTitle;
+
+    ImageView backBtn, deleteBtn; FloatingActionButton updateBtn;
 
     LinearLayout lowerBackBtn;
 
@@ -38,7 +37,7 @@ public class EditNoteActivity extends AppCompatActivity {
 
         toolbarTitle = findViewById(R.id.title_toolbar);
         updateBtn = findViewById(R.id.saveBtn); lowerBackBtn = findViewById(R.id.editNoteBackBtn);
-        backBtn = findViewById(R.id.back_icon); deleteBtn = findViewById(R.id.search_icon);
+        backBtn = findViewById(R.id.back_icon); deleteBtn = findViewById(R.id.delete_icon);
         editDesc = findViewById(R.id.editDesc); editTitle = findViewById(R.id.editTitle);
         layoutTitle = findViewById(R.id.layoutTitle);
 
@@ -62,7 +61,6 @@ public class EditNoteActivity extends AppCompatActivity {
             }
         });
 
-        deleteBtn.setBackgroundResource(R.drawable.ic_baseline_delete_outline_24);
         deleteBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

@@ -91,4 +91,8 @@ public class NotesRecyclerViewAdapter
     public void filterSearch(List<Note> filteredList){
         notes = filteredList; notifyDataSetChanged();
     }
+
+    public void saveNote(){
+        notifyItemInserted( notes.size()-1 );
+    }
 }
