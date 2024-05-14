@@ -69,10 +69,13 @@ public class EditNoteActivity extends AppCompatActivity {
                 intent.putExtra("delete", true);
                 intent.putExtra("position", extras.getInt("position"));
                 intent.putExtra("newNote", extras.getBoolean("newNote"));
+
+//                Toast.makeText(EditNoteActivity.this,
+//                        "Position: " + extras.getInt("posistion"),
+//                        Toast.LENGTH_SHORT).show();
                 setResult(RESULT_OK, intent);
 
                 finish();
-//                Toast.makeText(EditNoteActivity.this, "Position: " + extras.getInt("posistion"), Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -84,6 +87,9 @@ public class EditNoteActivity extends AppCompatActivity {
         });
 
         extras = getIntent().getExtras();
+        Toast.makeText(EditNoteActivity.this,
+                "Position: " + extras.getInt("position"),
+                Toast.LENGTH_SHORT).show();
         toolbarTitle.setText(extras.getString("noteTitle"));
         editTitle.setText(extras.getString("noteTitle"));
 

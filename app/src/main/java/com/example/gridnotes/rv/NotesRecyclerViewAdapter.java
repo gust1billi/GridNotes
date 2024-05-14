@@ -2,12 +2,10 @@ package com.example.gridnotes.rv;
 
 import android.content.Context;
 import android.content.Intent;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -16,7 +14,6 @@ import com.example.gridnotes.EditNoteActivity;
 import com.example.gridnotes.MainActivity;
 import com.example.gridnotes.R;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class NotesRecyclerViewAdapter
@@ -59,6 +56,8 @@ public class NotesRecyclerViewAdapter
                 intent.putExtra("noteTitle", note.getTitle() );
                 intent.putExtra("position", post);
 
+                // if ()// What if Encapsulate last added item?
+
                 if (note.getDesc() == null){
                     intent.putExtra("noteDesc", "" );
                 } else intent.putExtra("noteDesc", note.getDesc() );
@@ -94,5 +93,10 @@ public class NotesRecyclerViewAdapter
 
     public void saveNote(){
         notifyItemInserted( notes.size()-1 );
+    }
+
+    public void updateData(List<Note> updatedNote){
+        notes.clear();
+        notes.addAll(updatedNote);
     }
 }

@@ -49,7 +49,8 @@ public class MainActivity extends AppCompatActivity {
                         if ( data.getBooleanExtra("delete", false) ){
                             if ( !data.getBooleanExtra("newNote", false)){
                                 int position = data.getIntExtra("position", 0);
-                                deleteNote(position); myAdapter.notifyItemRemoved( position + 1 );
+                                myAdapter.notifyItemRemoved( position ); deleteNote(position);
+                                myAdapter.notifyItemRangeChanged(position, notes.size());
                             }
                         }
 
@@ -112,8 +113,8 @@ public class MainActivity extends AppCompatActivity {
         deleteBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(MainActivity.this,
-                        "title:" + notes.get(notes.size() -1 ).getTitle(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(MainActivity.this, "title:" + notes.get(notes.size() -1 ).getTitle(), Toast.LENGTH_SHORT).show();
+
             }
         });
 
@@ -166,6 +167,10 @@ public class MainActivity extends AppCompatActivity {
 
     private void deleteNote(int i) {
         notes.remove(i); // notes.remove(notes.size()-1);
+    }
+
+    private void updateNote(List<Note> update){
+        myAdapter.updateData(update);
     }
 
     private void populateNotes() {
