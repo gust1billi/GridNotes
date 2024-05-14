@@ -87,9 +87,9 @@ public class EditNoteActivity extends AppCompatActivity {
         });
 
         extras = getIntent().getExtras();
-        Toast.makeText(EditNoteActivity.this,
-                "Position: " + extras.getInt("position"),
-                Toast.LENGTH_SHORT).show();
+//        Toast.makeText(EditNoteActivity.this,
+//                "Position: " + extras.getInt("position"),
+//                Toast.LENGTH_SHORT).show();
         toolbarTitle.setText(extras.getString("noteTitle"));
         editTitle.setText(extras.getString("noteTitle"));
 

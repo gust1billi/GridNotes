@@ -113,8 +113,8 @@ public class MainActivity extends AppCompatActivity {
         deleteBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(MainActivity.this, "title:" + notes.get(notes.size() -1 ).getTitle(), Toast.LENGTH_SHORT).show();
-
+                Toast.makeText(MainActivity.this, "Deleted:" + notes.get(notes.size() -1 ).getTitle(), Toast.LENGTH_SHORT).show();
+                deleteNote(notes.size()-1);
             }
         });
 
@@ -129,9 +129,10 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public boolean onQueryTextChange(String filter) {
 //                Toast.makeText(MainActivity.this, filter, Toast.LENGTH_SHORT).show();
-                if (filter.length() == 0 ){
-                    originalNotes( );
-                } else filterRV(filter);
+//                if (filter.length() == 0 ){
+//                    originalNotes( );
+//                } else // LOGIC STATEMENT; The Magic is that we don't need this because we used SearchView
+                filterRV(filter);
                 return true;
             }
         });
@@ -146,9 +147,9 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    private void originalNotes(){
-        myAdapter.filterSearch(notes);
-    }
+//    private void originalNotes(){
+//        myAdapter.filterSearch(notes);
+//    } // LOGIC STATEMENT THAT IS NOT NEEDED BECAUSE SEARCHVIEW EXIST
 
     private void filterRV(String filter) {
         List<Note> filteredList = new ArrayList<>();
@@ -159,11 +160,6 @@ public class MainActivity extends AppCompatActivity {
         }
         myAdapter.filterSearch(filteredList);
     }
-
-//    private void initRV(List<Note> newNotes) {
-//        myAdapter = new NotesRecyclerViewAdapter(MainActivity.this, newNotes);
-//        recyclerView.setAdapter(myAdapter);
-//    }
 
     private void deleteNote(int i) {
         notes.remove(i); // notes.remove(notes.size()-1);
@@ -188,26 +184,6 @@ public class MainActivity extends AppCompatActivity {
 
     private void editNote(String title, String desc, int position){
         notes.set(position, new Note(title, desc));
-//        Toast.makeText(MainActivity.this, notes.get(position).getTitle() + notes.get(position).getDesc(),Toast.LENGTH_SHORT).show();
     }
 
-//    @Override
-//    protected void onResume() {
-//        super.onResume(); // Toast.makeText(MainActivity.this, "OnResume Start", Toast.LENGTH_SHORT).show();
-//
-//        // IF returned from the next activity. Identifier with Extra
-////        if (true) { updateNotes(); }
-//
-//        // Bundle extras = getIntent().getExtras();
-////        if (extras.getBoolean("delete")){
-////            Toast.makeText(MainActivity.this, "Value: " + extras.getInt("position"), Toast.LENGTH_SHORT).show();
-////            //deleteNote(extras.getInt("position"));
-////        }
-//    }
-
-//    private void updateNotes() {
-//        temp = notes;
-//        myAdapter.notifyItemRangeChanged(0, myAdapter.getItemCount() );
-//        // notes.clear(); // notes nya diisi ulang yang lama dan add yg terbaru
-//    }
 }
