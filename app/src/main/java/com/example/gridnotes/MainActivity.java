@@ -5,13 +5,13 @@ import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.SearchView;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Parcelable;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
@@ -32,10 +32,10 @@ public class MainActivity extends AppCompatActivity {
     RecyclerView recyclerView;
     RecyclerView.LayoutManager gridLayoutManager; NotesRecyclerViewAdapter myAdapter;
 
-    List<Note> notes; List<Note> temp = new ArrayList<>();
+    List<Note> notes;
 
     ImageView backBtn; // ImageView searchBtn;
-    TextView tbTitle; TextInputEditText searchBar;
+    TextView tbTitle; SearchView searchBar;
     FloatingActionButton plusBtn;
 
     ActivityResultLauncher<Intent>  nextActivityLauncher = registerForActivityResult(
@@ -48,22 +48,22 @@ public class MainActivity extends AppCompatActivity {
                     if (result.getResultCode() == Activity.RESULT_OK){
                         Intent data = result.getData();
 
-                        if ( data.getBooleanExtra("delete", false ) ){
-                            int position = data.getIntExtra("position", 0);
-                            deleteNote(position-1); myAdapter.notifyItemChanged( notes.size() );
+                        assert data != null;
+                        if ( data.getBooleanExtra("delete", false) ){
+                            if ( !data.getBooleanExtra("newNote", false)){
+                                int position = data.getIntExtra("position", 0);
+                                deleteNote(position); myAdapter.notifyItemRemoved( position );
+                            }
                         }
 
                         // Jika save note baru
                         if ( data.getBooleanExtra("save", false) ){
-//                            Toast.makeText(MainActivity.this,
-//                                    data.getStringExtra("title") + data.getStringExtra("desc"),
-//                                    Toast.LENGTH_SHORT).show();
                             addNote(data.getStringExtra("title"), data.getStringExtra("desc"));
-                            myAdapter.notifyItemChanged(notes.size() );
+                            myAdapter.notifyItemInserted( notes.size() );
                         } else if (data.getBooleanExtra("update", false)){
                             int position = data.getIntExtra("position", 0);
                             editNote(data.getStringExtra("title"), data.getStringExtra("desc"), position);
-                            myAdapter.notifyDataSetChanged( );
+                            myAdapter.notifyItemChanged( position );
                         }
 //                        Toast.makeText(MainActivity.this, "yay" + position, Toast.LENGTH_SHORT).show(); // data.getIntExtra("position")
                     }
@@ -110,64 +110,83 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        searchBar = findViewById(R.id.search_bar);
-        
-        searchBar.addTextChangedListener(new TextWatcher() {
+        searchBar = findViewById(R.id.mainSearchView);
+
+        searchBar.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                
+            public boolean onQueryTextSubmit(String query) {
+                return false;
             }
 
             @Override
-            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-            }
-
-            @Override
-            public void afterTextChanged(Editable editable) {
-                if (searchBar.getText().length() == 0){
-                    initRV(notes); myAdapter.notifyItemChanged( notes.size() );
-                } else {
-                    temp.clear();
-                    for (Note note : notes
-                         ) {
-                        if (note.getTitle().contains(searchBar.getText() )){
-                            temp.add(note);
-                        }
-                        initRV(temp);
-                        myAdapter.notifyItemChanged(temp.size() );
-                    }
-                } // END of elif String Matched of Searchbox
-
-
-//                Toast.makeText(MainActivity.this, "SearchBar: " +
-//                        searchBar.getText(), Toast.LENGTH_SHORT).show();
+            public boolean onQueryTextChange(String filter) {
+//                Toast.makeText(MainActivity.this, filter, Toast.LENGTH_SHORT).show();
+                filterRV(filter);
+                return true;
             }
         });
-//        searchBtn.setBackgroundResource(R.drawable.ic_baseline_search_24);
-//
-//        searchBtn.setOnClickListener(new View.OnClickListener() {
+        
+//        searchBar.addTextChangedListener(new TextWatcher() {
 //            @Override
-//            public void onClick(View view) {
-//                final Intent intent = new Intent(MainActivity.this, SearchActivity.class);
-//                intent.putParcelableArrayListExtra("listNotes", (ArrayList<? extends Parcelable>) notes);
-//                openNextActivity(intent);
+//            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+//
+//            }
+//
+//            @Override
+//            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+//
+//            }
+//
+//            @Override
+//            public void afterTextChanged(Editable editable) {
+//                if (searchBar.getText().length() == 0){
+////                    Toast.makeText(MainActivity.this, notes.get(notes.size()-1).getTitle(),
+////                            Toast.LENGTH_SHORT).show();
+//                    temp = notes;
+//                    initRV(temp); myAdapter.notifyItemRangeChanged(0, notes.size());
+//
+//                } else {
+//                    temp.clear();
+//                    for (Note note : notes
+//                         ) {
+//                        if (note.getTitle().contains(searchBar.getText() )){
+//                            temp.add(note);
+//                        }
+//                        initRV(temp);
+//                        myAdapter.notifyItemRangeChanged(0, temp.size());
+//                    }
+//                } // END of elif String Matched of Searchbox
+//
+//
+////                Toast.makeText(MainActivity.this, "SearchBar: " +
+////                        searchBar.getText(), Toast.LENGTH_SHORT).show();
 //            }
 //        });
 
         recyclerView = findViewById(R.id.mainRV);
+        gridLayoutManager = new GridLayoutManager(MainActivity.this, 2);
+        myAdapter = new NotesRecyclerViewAdapter(MainActivity.this, notes);
+        recyclerView.setLayoutManager(gridLayoutManager);
+        recyclerView.setAdapter(myAdapter);
 
-        initRV(notes);
+        // initRV(notes);
 
     }
 
+    private void filterRV(String filter) {
+        List<Note> filteredList = new ArrayList<>();
+        for (Note note : notes) {
+            if (note.getTitle().toLowerCase().contains(filter.toLowerCase( ) ) ){
+                filteredList.add(note);
+            }
+        }
+        myAdapter.filterSearch(filteredList);
+    }
+
     private void initRV(List<Note> newNotes) {
-
-        gridLayoutManager = new GridLayoutManager(MainActivity.this, 2);
         myAdapter = new NotesRecyclerViewAdapter(MainActivity.this, newNotes);
-
-        recyclerView.setLayoutManager(gridLayoutManager);
         recyclerView.setAdapter(myAdapter);
+
     }
 
     private void deleteNote(int i) {
@@ -189,9 +208,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void editNote(String title, String desc, int position){
         notes.set(position, new Note(title, desc));
-        Toast.makeText(MainActivity.this,
-                notes.get(position).getTitle() + notes.get(position).getDesc(),
-                Toast.LENGTH_SHORT).show();
+//        Toast.makeText(MainActivity.this, notes.get(position).getTitle() + notes.get(position).getDesc(),Toast.LENGTH_SHORT).show();
     }
 
 //    @Override
@@ -208,9 +225,9 @@ public class MainActivity extends AppCompatActivity {
 ////        }
 //    }
 
-    private void updateNotes() {
-        temp = notes;
-        myAdapter.notifyItemRangeChanged(0, myAdapter.getItemCount() );
-        // notes.clear(); // notes nya diisi ulang yang lama dan add yg terbaru
-    }
+//    private void updateNotes() {
+//        temp = notes;
+//        myAdapter.notifyItemRangeChanged(0, myAdapter.getItemCount() );
+//        // notes.clear(); // notes nya diisi ulang yang lama dan add yg terbaru
+//    }
 }

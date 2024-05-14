@@ -70,6 +70,7 @@ public class EditNoteActivity extends AppCompatActivity {
 
                 intent.putExtra("delete", true);
                 intent.putExtra("position", extras.getInt("position"));
+                intent.putExtra("newNote", extras.getBoolean("newNote"));
                 setResult(RESULT_OK, intent);
 
                 finish();

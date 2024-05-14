@@ -16,6 +16,7 @@ import com.example.gridnotes.EditNoteActivity;
 import com.example.gridnotes.MainActivity;
 import com.example.gridnotes.R;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class NotesRecyclerViewAdapter
@@ -85,5 +86,9 @@ public class NotesRecyclerViewAdapter
             desc = itemView.findViewById(R.id.noteDesc);
         }
 
+    }
+
+    public void filterSearch(List<Note> filteredList){
+        notes = filteredList; notifyDataSetChanged();
     }
 }
