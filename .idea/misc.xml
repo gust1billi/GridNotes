@@ -3,14 +3,12 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
-        <entry key="..\:/IDM/ASProject/DataBasics/app/src/main/res/layout/activity_main.xml" value="0.22573749465583584" />
-        <entry key="..\:/IDM/ASProject/GridNotes/app/src/main/res/layout/activity_main.xml" value="0.264" />
         <entry key="..\:/IDM/AndroidStudioProjects/GridNotes/app/src/main/res/drawable/ic_baseline_arrow_back_24.xml" value="0.1375" />
         <entry key="..\:/IDM/AndroidStudioProjects/GridNotes/app/src/main/res/drawable/ic_baseline_delete_outline_24.xml" value="0.17" />
         <entry key="..\:/IDM/AndroidStudioProjects/GridNotes/app/src/main/res/drawable/ic_baseline_search_24.xml" value="0.1375" />
         <entry key="..\:/IDM/AndroidStudioProjects/GridNotes/app/src/main/res/drawable/rounded_all_corners.xml" value="0.1375" />
         <entry key="..\:/IDM/AndroidStudioProjects/GridNotes/app/src/main/res/layout/activity_edit_note.xml" value="0.264" />
-        <entry key="..\:/IDM/AndroidStudioProjects/GridNotes/app/src/main/res/layout/activity_main.xml" value="0.2" />
+        <entry key="..\:/IDM/AndroidStudioProjects/GridNotes/app/src/main/res/layout/activity_main.xml" value="0.264" />
         <entry key="..\:/IDM/AndroidStudioProjects/GridNotes/app/src/main/res/layout/activity_search.xml" value="0.1765625" />
         <entry key="..\:/IDM/AndroidStudioProjects/GridNotes/app/src/main/res/layout/rv_note_list.xml" value="0.44982698961937717" />
         <entry key="..\:/IDM/AndroidStudioProjects/GridNotes/app/src/main/res/layout/toolbar.xml" value="0.264" />
