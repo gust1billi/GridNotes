@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">GridNotes</string>
+    <string name="app_name">Learning SQLite</string>
     <string name="noteTitle">Judul Note</string>
     <string name="noteDesc">Deskripsi Note</string>
     <string name="toolbar_text">Judul dalam Note</string>
