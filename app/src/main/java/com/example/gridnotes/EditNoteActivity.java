@@ -69,11 +69,11 @@ public class EditNoteActivity extends AppCompatActivity {
                 intent.putExtra("delete", true);
                 intent.putExtra("position", extras.getInt("position"));
                 intent.putExtra("newNote", extras.getBoolean("newNote"));
+                setResult(RESULT_OK, intent);
 
 //                Toast.makeText(EditNoteActivity.this,
 //                        "Position: " + extras.getInt("posistion"),
 //                        Toast.LENGTH_SHORT).show();
-                setResult(RESULT_OK, intent);
 
                 finish();
             }

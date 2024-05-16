@@ -84,7 +84,10 @@ public class NotesRecyclerViewAdapter
             title = itemView.findViewById(R.id.noteTitle);
             desc = itemView.findViewById(R.id.noteDesc);
         }
+    }
 
+    public void undoSearch(List<Note> originalList){
+        this.notes = originalList; notifyDataSetChanged();
     }
 
     public void filterSearch(List<Note> filteredList){
@@ -92,7 +95,13 @@ public class NotesRecyclerViewAdapter
     }
 
     public void saveNote(){
+        notifyItemRangeChanged(notes.size()-2, notes.size());
         notifyItemInserted( notes.size()-1 );
+    }
+
+    public void noteDeletion(int position){
+        notifyItemRemoved( position );
+        notifyItemRangeChanged(position, notes.size());
     }
 
     public void updateData(List<Note> updatedNote){

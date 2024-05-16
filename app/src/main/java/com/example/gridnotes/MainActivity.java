@@ -49,8 +49,7 @@ public class MainActivity extends AppCompatActivity {
                         if ( data.getBooleanExtra("delete", false) ){
                             if ( !data.getBooleanExtra("newNote", false)){
                                 int position = data.getIntExtra("position", 0);
-                                myAdapter.notifyItemRemoved( position ); deleteNote(position);
-                                myAdapter.notifyItemRangeChanged(position, notes.size());
+                                deleteNote(position); myAdapter.noteDeletion(position);
                             }
                         }
 
@@ -58,6 +57,7 @@ public class MainActivity extends AppCompatActivity {
                         if ( data.getBooleanExtra("save", false) ){
                             addNote(data.getStringExtra("title"), data.getStringExtra("desc"));
                             myAdapter.notifyItemInserted( notes.size()-1 );
+                            myAdapter.notifyItemRangeChanged(notes.size()-2, notes.size());
                         } else if (data.getBooleanExtra("update", false)){
                             int position = data.getIntExtra("position", 0);
                             editNote(data.getStringExtra("title"), data.getStringExtra("desc"), position);
@@ -87,7 +87,6 @@ public class MainActivity extends AppCompatActivity {
         tbTitle.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                // deleteNote();
                 addNote("a", "b");
                 // Toast.makeText(MainActivity.this, "Note size: "+ notes.size(), Toast.LENGTH_SHORT).show();
                 myAdapter.saveNote();
@@ -114,7 +113,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Toast.makeText(MainActivity.this, "Deleted:" + notes.get(notes.size() -1 ).getTitle(), Toast.LENGTH_SHORT).show();
-                deleteNote(notes.size()-1);
+                deleteNote(notes.size()-1); myAdapter.noteDeletion(notes.size()-1);
             }
         });
 
@@ -129,10 +128,10 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public boolean onQueryTextChange(String filter) {
 //                Toast.makeText(MainActivity.this, filter, Toast.LENGTH_SHORT).show();
-//                if (filter.length() == 0 ){
-//                    originalNotes( );
-//                } else // LOGIC STATEMENT; The Magic is that we don't need this because we used SearchView
-                filterRV(filter);
+                if (filter.length() == 0 ){
+                    myAdapter.undoSearch(notes);
+                } else filterRV(filter);
+                // LOGIC STATEMENT; I thought I didn't need this failsafe, but the Adapter dataset changed
                 return true;
             }
         });
